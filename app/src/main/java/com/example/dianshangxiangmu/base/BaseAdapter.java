@@ -55,7 +55,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
     }
 
     /**
-     * 添加数据
+     *
+     * 分页加载数据的刷新
      * @param list
      */
     public void addData(List<T> list){

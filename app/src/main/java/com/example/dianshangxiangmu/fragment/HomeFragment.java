@@ -6,11 +6,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.dianshangxiangmu.R;
 import com.example.dianshangxiangmu.adapter.HomeAdapter;
+import com.example.dianshangxiangmu.adapter.RqAdapter;
+import com.example.dianshangxiangmu.adapter.XpAdapter;
 import com.example.dianshangxiangmu.base.BaseFragment;
 import com.example.dianshangxiangmu.bean.IndexBean;
 import com.example.dianshangxiangmu.contract.HomeContract;
@@ -24,11 +27,16 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment<HomeContract.View, HomeContract.Presenter> implements HomeContract.View {
     private Banner mBanner;
-    private TextView mTitleHome;
     private RecyclerView mRecHome;
     private HomeAdapter homeAdapter;
     List<IndexBean.DataBean.BrandListBean> brandList;
     private TabLayout mTabLayout;
+    private RecyclerView mXpRec;
+    private List<IndexBean.DataBean.NewGoodsListBean> newGoodsListBeanList;
+    private XpAdapter xpAdapter;
+    private RecyclerView mZtRec;
+    private List<IndexBean.DataBean.HotGoodsListBean> hotGoodsListBeans;
+    private RqAdapter rqAdapter;
 
     @Override
     protected void initData() {
@@ -43,14 +51,40 @@ public class HomeFragment extends BaseFragment<HomeContract.View, HomeContract.P
     @Override
     protected void initView(View view) {
         mBanner = (Banner) view.findViewById(R.id.banner);
-        mTitleHome = (TextView) view.findViewById(R.id.home_Title);
         mRecHome = (RecyclerView) view.findViewById(R.id.home_Rec);
         mTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
-        mTitleHome.setText("品牌制造商直供");
-        mRecHome.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mRecHome.setLayoutManager(gridLayoutManager);
         brandList = new ArrayList<>();
         homeAdapter = new HomeAdapter(brandList);
         mRecHome.setAdapter(homeAdapter);
+        mXpRec = (RecyclerView) view.findViewById(R.id.xpRec);
+        GridLayoutManager gridManager = new GridLayoutManager(getActivity(), 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mXpRec.setLayoutManager(gridManager);
+        newGoodsListBeanList = new ArrayList<>();
+        xpAdapter = new XpAdapter(newGoodsListBeanList);
+        mXpRec.setAdapter(xpAdapter);
+        mZtRec = (RecyclerView) view.findViewById(R.id.rqRec);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mZtRec.setLayoutManager(linearLayoutManager);
+        hotGoodsListBeans = new ArrayList<>();
+        rqAdapter = new RqAdapter(hotGoodsListBeans);
+        mZtRec.setAdapter(rqAdapter);
     }
 
     @Override
@@ -79,5 +113,7 @@ public class HomeFragment extends BaseFragment<HomeContract.View, HomeContract.P
         }
 
         homeAdapter.addData(bean.getData().getBrandList());
+        xpAdapter.addData(bean.getData().getNewGoodsList());
+        rqAdapter.addData(bean.getData().getHotGoodsList());
     }
 }
