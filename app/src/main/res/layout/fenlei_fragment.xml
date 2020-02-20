@@ -23,6 +23,7 @@
 
             <ImageView
                 android:id="@+id/titleImg"
+                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="150dp" />
 

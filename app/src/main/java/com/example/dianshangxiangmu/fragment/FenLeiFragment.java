@@ -28,10 +28,9 @@ import q.rorbin.verticaltablayout.widget.ITabView;
 import q.rorbin.verticaltablayout.widget.QTabView;
 import q.rorbin.verticaltablayout.widget.TabView;
 
-public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiContract.Presenter> implements FenLeiContract.View {
+public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiContract.Presenter> implements FenLeiContract.View ,VerticalTabLayout.OnTabSelectedListener{
     private VerticalTabLayout mTab;
     private ImageView mTitleImg;
-    private View mVw;
     private RecyclerView mFenleiRec;
     private TextView mFenleiName;
     private GridLayoutManager gridLayoutManager;
@@ -69,6 +68,7 @@ public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiCont
         titles = new ArrayList<>();
         fenLeiAdapter = new FenLeiAdapter(list);
         mFenleiRec.setAdapter(fenLeiAdapter);
+        mTab.addOnTabSelectedListener(this);
     }
 
     TabAdapter tabAdapter=new TabAdapter() {
@@ -107,7 +107,7 @@ public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiCont
     }
 
     @Override
-    public void getsort(CatalogTabBean result) {
+    public void getsortData(CatalogTabBean result) {
         categoryList = result.getData().getCategoryList();
         titles.clear();
         //筛选竖导航的标题数据
@@ -116,14 +116,30 @@ public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiCont
         }
         mTab.setTabAdapter(tabAdapter);
 
-        updateInfo(result.getData().getCurrentCategory().getImg_url(),result.getData().getCurrentCategory().getFront_desc(),
+        updateInfo(result.getData().getCurrentCategory().getWap_banner_url(),result.getData().getCurrentCategory().getFront_desc(),
                 result.getData().getCurrentCategory().getName()+"分类");
         //刷新列表
         list.clear();
         for(CatalogTabBean.DataBean.CurrentCategoryBean.SubCategoryListBean item:result.getData().getCurrentCategory().getSubCategoryList()){
             CatalogItem catalogItem = new CatalogItem();
             catalogItem.id = item.getId();
-            catalogItem.img= item.getImg_url();
+            catalogItem.img= item.getWap_banner_url();
+            catalogItem.name = item.getName();
+            list.add(catalogItem);
+        }
+        fenLeiAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getFenLei(CatalogListBean result) {
+        updateInfo(result.getData().getCurrentCategory().getWap_banner_url(),result.getData().getCurrentCategory().getFront_desc(),
+                result.getData().getCurrentCategory().getName()+"分类");
+
+        list.clear();
+        for(CatalogListBean.DataBean.CurrentCategoryBean.SubCategoryListBean item:result.getData().getCurrentCategory().getSubCategoryList()){
+            CatalogItem catalogItem = new CatalogItem();
+            catalogItem.id = item.getId();
+            catalogItem.img= item.getWap_banner_url();
             catalogItem.name = item.getName();
             list.add(catalogItem);
         }
@@ -140,18 +156,16 @@ public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiCont
     }
 
     @Override
-    public void getFenLei(CatalogListBean result) {
-        updateInfo(result.getData().getCurrentCategory().getImg_url(),result.getData().getCurrentCategory().getFront_desc(),
-                result.getData().getCurrentCategory().getName()+"分类");
-
-        list.clear();
-        for(CatalogListBean.DataBean.CurrentCategoryBean.SubCategoryListBean item:result.getData().getCurrentCategory().getSubCategoryList()){
-            CatalogItem catalogItem = new CatalogItem();
-            catalogItem.id = item.getId();
-            catalogItem.img= item.getImg_url();
-            catalogItem.name = item.getName();
-            list.add(catalogItem);
+    public void onTabSelected(TabView tab, int position) {
+        if(categoryList != null){
+            int id = categoryList.get(position).getId();
+            //请求id对应的列表数据
+            presenter.getFenLeiData(id);
         }
-        fenLeiAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onTabReselected(TabView tab, int position) {
+
     }
 }

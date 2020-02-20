@@ -7,7 +7,7 @@ import com.example.dianshangxiangmu.bean.CatalogTabBean;
 
 public interface FenLeiContract {
     interface View extends IBaseView{
-        void getsort(CatalogTabBean catalogTabBean);
+        void getsortData(CatalogTabBean catalogTabBean);
         void getFenLei(CatalogListBean catalogListBean);
     }
 
