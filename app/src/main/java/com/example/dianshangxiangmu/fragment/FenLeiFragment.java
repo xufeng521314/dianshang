@@ -1,5 +1,6 @@
 package com.example.dianshangxiangmu.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.dianshangxiangmu.R;
+import com.example.dianshangxiangmu.SortDetailActivity;
 import com.example.dianshangxiangmu.adapter.FenLeiAdapter;
+import com.example.dianshangxiangmu.base.BaseAdapter;
 import com.example.dianshangxiangmu.base.BaseFragment;
 import com.example.dianshangxiangmu.bean.CatalogItem;
 import com.example.dianshangxiangmu.bean.CatalogListBean;
@@ -28,7 +31,7 @@ import q.rorbin.verticaltablayout.widget.ITabView;
 import q.rorbin.verticaltablayout.widget.QTabView;
 import q.rorbin.verticaltablayout.widget.TabView;
 
-public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiContract.Presenter> implements FenLeiContract.View ,VerticalTabLayout.OnTabSelectedListener{
+public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiContract.Presenter> implements FenLeiContract.View ,VerticalTabLayout.OnTabSelectedListener , BaseAdapter.OnClickItem {
     private VerticalTabLayout mTab;
     private ImageView mTitleImg;
     private RecyclerView mFenleiRec;
@@ -68,6 +71,7 @@ public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiCont
         titles = new ArrayList<>();
         fenLeiAdapter = new FenLeiAdapter(list);
         mFenleiRec.setAdapter(fenLeiAdapter);
+        fenLeiAdapter.setOnItemClick(this);
         mTab.addOnTabSelectedListener(this);
     }
 
@@ -167,5 +171,13 @@ public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiCont
     @Override
     public void onTabReselected(TabView tab, int position) {
 
+    }
+
+    @Override
+    public void itenClick(View v, int pos) {
+        int id = list.get(pos).id;
+        Intent intent = new Intent(getActivity(), SortDetailActivity.class);
+        intent.putExtra("id",id);
+        startActivity(intent);
     }
 }

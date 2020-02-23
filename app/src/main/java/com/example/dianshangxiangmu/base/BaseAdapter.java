@@ -14,6 +14,7 @@ import java.util.List;
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHolder> {
     protected List<T> list;
     protected Context context;
+    private OnClickItem onClickItem;
 
     public BaseAdapter(List<T> list) {
         this.list = list;
@@ -23,9 +24,17 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
 
     @NonNull
     @Override
-    public BaseAdapter.BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseAdapter.BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
         context=parent.getContext();
         View view= LayoutInflater.from(context).inflate(getLayout(),parent,false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItem!=null){
+                    onClickItem.itenClick(v,viewType);
+                }
+            }
+        });
         return new BaseViewHolder(view);
     }
 
@@ -95,4 +104,13 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
             return view;
         }
     }
+
+    public interface OnClickItem{
+        void itenClick(View v,int pos);
+    }
+
+    public void setOnItemClick(OnClickItem onItemClick){
+        this.onClickItem = onItemClick;
+    }
+
 }
