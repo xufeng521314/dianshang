@@ -1,5 +1,6 @@
 package com.example.dianshangxiangmu;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dianshangxiangmu.adapter.DetilAdapter;
 import com.example.dianshangxiangmu.base.BaseActivity;
+import com.example.dianshangxiangmu.base.BaseAdapter;
 import com.example.dianshangxiangmu.bean.DetilListBean;
 import com.example.dianshangxiangmu.bean.DetilTabBean;
 import com.example.dianshangxiangmu.contract.SortDetilContract;
@@ -19,7 +21,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SortDetailActivity extends BaseActivity<SortDetilContract.View, SortDetilContract.Presenter> implements SortDetilContract.View ,TabLayout.BaseOnTabSelectedListener{
+public class SortDetailActivity extends BaseActivity<SortDetilContract.View, SortDetilContract.Presenter> implements SortDetilContract.View ,TabLayout.BaseOnTabSelectedListener , BaseAdapter.OnClickItem {
 
     private ImageView mBackImg;
     private TabLayout mTabLayout;
@@ -70,6 +72,7 @@ public class SortDetailActivity extends BaseActivity<SortDetilContract.View, Sor
         listBeans = new ArrayList<>();
         detilAdapter = new DetilAdapter(listBeans);
         mRecyclerview.setAdapter(detilAdapter);
+        detilAdapter.setOnItemClick(this);
         mTabLayout.addOnTabSelectedListener(this);
     }
 
@@ -103,10 +106,9 @@ public class SortDetailActivity extends BaseActivity<SortDetilContract.View, Sor
 
     @Override
     public void getDetilReturn(DetilListBean result) {
-        detilAdapter.addData(result.getData().getGoodsList());
-//        listBeans.clear();
-//        listBeans.addAll(result.getData().getGoodsList());
-//        detilAdapter.notifyDataSetChanged();
+        listBeans.clear();
+        listBeans.addAll(result.getData().getGoodsList());
+        detilAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -123,5 +125,13 @@ public class SortDetailActivity extends BaseActivity<SortDetilContract.View, Sor
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    @Override
+    public void itenClick(View v, int pos) {
+        int id = listBeans.get(pos).getId();
+        Intent intent = new Intent(this, PurchaseActivity.class);
+        intent.putExtra("id",id);
+        startActivity(intent);
     }
 }

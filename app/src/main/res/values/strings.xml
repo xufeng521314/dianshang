@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">DianShangXiangMu</string>
+    <string name="title_home">主页</string>
+    <string name="title_topic">专题</string>
+    <string name="title_sort">分类</string>
+    <string name="title_shoping">购物车</string>
+    <string name="title_me">我的</string>
+
+    <string name="price_news_model">￥$</string>
+    <string name="css_goods">
+        html,body,p{
+            padding:0px;
+            margin:0px;
+            text-align:center;
+        }
+        img{
+            width:100%;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            margin:auto;
+        }
+    </string>
 </resources>

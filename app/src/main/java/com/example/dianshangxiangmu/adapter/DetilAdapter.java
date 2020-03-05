@@ -2,6 +2,7 @@ package com.example.dianshangxiangmu.adapter;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,6 @@ public class DetilAdapter extends BaseAdapter {
         DetilListBean.DataBeanX.GoodsListBean list = (DetilListBean.DataBeanX.GoodsListBean) this.list.get(position);
         Glide.with(context).load(list.getList_pic_url()).into(img);
         title.setText(list.getName());
-        price.setText(list.getRetail_price());
+        price.setText(list.getRetail_price()+"元起");
     }
 }

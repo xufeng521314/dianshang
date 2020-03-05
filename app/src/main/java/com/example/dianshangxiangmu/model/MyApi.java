@@ -8,6 +8,7 @@ import com.example.dianshangxiangmu.bean.CatalogTabBean;
 import com.example.dianshangxiangmu.bean.DetilListBean;
 import com.example.dianshangxiangmu.bean.DetilTabBean;
 import com.example.dianshangxiangmu.bean.IndexBean;
+import com.example.dianshangxiangmu.bean.RelatedBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
@@ -35,5 +36,9 @@ public interface MyApi {
     //获取分类详情页列表数据
     @GET("goods/list")
     Flowable<DetilListBean> getDetilList(@Query("categoryId") int id,@Query("page") int page,@Query("size") int size);
+
+    //商品购买页面的数据接口
+    @GET("goods/detail")
+    Flowable<RelatedBean> getRelatedData(@Query("id") int id);
 
 }
