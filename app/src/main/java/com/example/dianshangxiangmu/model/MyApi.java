@@ -9,9 +9,14 @@ import com.example.dianshangxiangmu.bean.DetilListBean;
 import com.example.dianshangxiangmu.bean.DetilTabBean;
 import com.example.dianshangxiangmu.bean.IndexBean;
 import com.example.dianshangxiangmu.bean.RelatedBean;
+import com.example.dianshangxiangmu.bean.UserBean;
+import com.example.dianshangxiangmu.bean.VerifyBean;
 
 import io.reactivex.Flowable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface MyApi {
@@ -40,5 +45,14 @@ public interface MyApi {
     //商品购买页面的数据接口
     @GET("goods/detail")
     Flowable<RelatedBean> getRelatedData(@Query("id") int id);
+
+    //验证码
+    @GET("auth/verify")
+    Flowable<VerifyBean> getVerify();
+
+    //登录
+    @POST("auth/login")
+    @FormUrlEncoded
+    Flowable<UserBean> login(@Field("nickname") String nickname, @Field("password") String password);
 
 }

@@ -1,9 +1,14 @@
 package com.example.dianshangxiangmu;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -45,6 +50,7 @@ public class PurchaseActivity extends BaseActivity<PurchaseContract.View, Purcha
     private TextView mBuyTxt;
     private TextView mAddCartTxt;
     private Banner mMyBanner;
+    private ConstraintLayout mContent;
 
     @Override
     protected void initData() {
@@ -83,8 +89,34 @@ public class PurchaseActivity extends BaseActivity<PurchaseContract.View, Purcha
         mBuyTxt = (TextView) findViewById(R.id.txt_buy);
         mAddCartTxt = (TextView) findViewById(R.id.txt_addCart);
         mMyBanner = (Banner) findViewById(R.id.myBanner);
+        mContent = (ConstraintLayout) findViewById(R.id.content);
         WebSettings webSettings = mMyWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        mAddCartTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View item= LayoutInflater.from(PurchaseActivity.this).inflate(R.layout.pop_item,null);
+                final PopupWindow popupWindow = new PopupWindow(item,getWindowManager().getDefaultDisplay().getWidth(),700);
+                popupWindow.showAtLocation(mContent, Gravity.BOTTOM,0,0);
+                ImageView img = item.findViewById(R.id.img);
+                TextView jia = item.findViewById(R.id.jia);
+                TextView jian = item.findViewById(R.id.jian);
+                ImageView image = item.findViewById(R.id.image);
+                img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
+        mCollectTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PurchaseActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -105,7 +137,7 @@ public class PurchaseActivity extends BaseActivity<PurchaseContract.View, Purcha
 
     //填充banner数据
     private void updateBanner(List<RelatedBean.DataBeanX.GalleryBean> list) {
-        List<String> listBanner=new ArrayList<>();
+        List<String> listBanner = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             String img_url = list.get(i).getImg_url();
             listBanner.add(img_url);
