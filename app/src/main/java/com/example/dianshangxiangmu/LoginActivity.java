@@ -41,8 +41,9 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
             public void onClick(View view) {
                 String nickname = mUsernameEdit.getText().toString();
                 String password = mPasswordEdit.getText().toString();
-
                 presenter.login(nickname, password);
+                Intent intent = new Intent(LoginActivity.this, PurchaseActivity.class);
+                startActivity(intent);
             }
         });
         mLogenBtn = (TextView) findViewById(R.id.btn_logen);

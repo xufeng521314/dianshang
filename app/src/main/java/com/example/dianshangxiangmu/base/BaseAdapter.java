@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHolder> {
     protected List<T> list;
     protected Context context;
-    private OnClickItem onClickItem;
+    protected OnClickItem onClickItem;
 
     public BaseAdapter(List<T> list) {
         this.list = list;
@@ -24,18 +24,19 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
 
     @NonNull
     @Override
-    public BaseAdapter.BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
+    public BaseAdapter.BaseViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         context=parent.getContext();
         View view= LayoutInflater.from(context).inflate(getLayout(),parent,false);
+        final BaseViewHolder baseViewHolder = new BaseViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onClickItem!=null){
-                    onClickItem.itenClick(v,viewType);
+                    onClickItem.itenClick(baseViewHolder, baseViewHolder.getLayoutPosition());
                 }
             }
         });
-        return new BaseViewHolder(view);
+        return baseViewHolder;
     }
 
     protected abstract int getLayout();
@@ -89,7 +90,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
         return position;
     }
 
-    public class BaseViewHolder extends RecyclerView.ViewHolder{
+    public static class BaseViewHolder extends RecyclerView.ViewHolder{
         private SparseArray<View> myViewSparseArray;
         public BaseViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,7 +107,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
     }
 
     public interface OnClickItem{
-        void itenClick(View v,int pos);
+        void itenClick(BaseViewHolder v,int pos);
     }
 
     public void setOnItemClick(OnClickItem onItemClick){

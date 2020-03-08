@@ -174,7 +174,7 @@ public class FenLeiFragment extends BaseFragment<FenLeiContract.View, FenLeiCont
     }
 
     @Override
-    public void itenClick(View v, int pos) {
+    public void itenClick(BaseAdapter.BaseViewHolder v, int pos) {
         int id = list.get(pos).id;
         Intent intent = new Intent(getActivity(), SortDetailActivity.class);
         intent.putExtra("id",id);

@@ -37,7 +37,8 @@ public class MainActivity extends BaseActivity {
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.frame,homeFragment).add(R.id.frame,zhuanTiFragment)
-                .add(R.id.frame,fenLeiFragment).show(homeFragment).hide(zhuanTiFragment).hide(fenLeiFragment).commit();
+                .add(R.id.frame,fenLeiFragment).show(homeFragment).hide(zhuanTiFragment).hide(fenLeiFragment)
+                .commit();
 
         mNavigationview.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -47,15 +48,23 @@ public class MainActivity extends BaseActivity {
                 switch (menuItem.getItemId()){
                     case R.id.home:
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.show(homeFragment).hide(zhuanTiFragment).hide(fenLeiFragment).commit();
+                        fragmentTransaction.show(homeFragment).hide(zhuanTiFragment).hide(fenLeiFragment)
+                                .hide(shoppingFragment).commit();
                         break;
                     case R.id.zhuanti:
                         FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
-                        fragmentTransaction2.show(zhuanTiFragment).hide(homeFragment).hide(fenLeiFragment).commit();
+                        fragmentTransaction2.show(zhuanTiFragment).hide(homeFragment).hide(fenLeiFragment)
+                                .hide(shoppingFragment).commit();
                         break;
                     case R.id.fenlei:
                         FragmentTransaction fragmentTransaction3 = fragmentManager.beginTransaction();
-                        fragmentTransaction3.show(fenLeiFragment).hide(homeFragment).hide(zhuanTiFragment).commit();
+                        fragmentTransaction3.show(fenLeiFragment).hide(homeFragment).hide(zhuanTiFragment)
+                                .hide(shoppingFragment).commit();
+//                    case R.id.shopping:
+//                        FragmentTransaction fragmentTransaction4 = fragmentManager.beginTransaction();
+//                        fragmentTransaction4.show(shoppingFragment).hide(homeFragment).hide(zhuanTiFragment)
+//                                .hide(fenLeiFragment).commit();
+//                        break;
                 }
                 return false;
             }

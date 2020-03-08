@@ -128,7 +128,7 @@ public class SortDetailActivity extends BaseActivity<SortDetilContract.View, Sor
     }
 
     @Override
-    public void itenClick(View v, int pos) {
+    public void itenClick(BaseAdapter.BaseViewHolder v, int pos) {
         int id = listBeans.get(pos).getId();
         Intent intent = new Intent(this, PurchaseActivity.class);
         intent.putExtra("id",id);
