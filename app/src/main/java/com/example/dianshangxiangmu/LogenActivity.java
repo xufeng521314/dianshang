@@ -65,10 +65,6 @@ public class LogenActivity extends BaseActivity<LogenContract.View, LogenContrac
 
     @Override
     public void getLogenReturn(LogenBean result) {
-        String nickname = result.getData().getUserInfo().getNickname();
-        String username = result.getData().getUserInfo().getUsername();
-        mUsernameEdit.setText(nickname);
-        mPw1Edit.setText(username);
         final String name = mUsernameEdit.getText().toString();
         final String pass = mPw1Edit.getText().toString();
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
