@@ -1,6 +1,7 @@
 package com.example.dianshangxiangmu.presenter;
 
 import com.example.dianshangxiangmu.base.BasePresenter;
+import com.example.dianshangxiangmu.bean.LogenBean;
 import com.example.dianshangxiangmu.bean.VerifyBean;
 import com.example.dianshangxiangmu.component.CommonSubscriber;
 import com.example.dianshangxiangmu.contract.LogenContract;
@@ -20,4 +21,19 @@ public class LogenPresenter extends BasePresenter<LogenContract.View> implements
                     }
                 }));
     }
+
+    @Override
+    public void getLogen(String nickname, String password) {
+        addSubscribe(HttpManager.getMyApi().logen(nickname,password)
+                .compose(RxUtils.<LogenBean>rxScheduler())
+                .subscribeWith(new CommonSubscriber<LogenBean>(mView){
+
+                    @Override
+                    public void onNext(LogenBean logenBean) {
+                        mView.getLogenReturn(logenBean);
+                    }
+                }));
+    }
+
+
 }

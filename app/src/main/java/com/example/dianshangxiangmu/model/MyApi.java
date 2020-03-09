@@ -12,6 +12,7 @@ import com.example.dianshangxiangmu.bean.CatalogTabBean;
 import com.example.dianshangxiangmu.bean.DetilListBean;
 import com.example.dianshangxiangmu.bean.DetilTabBean;
 import com.example.dianshangxiangmu.bean.IndexBean;
+import com.example.dianshangxiangmu.bean.LogenBean;
 import com.example.dianshangxiangmu.bean.RelatedBean;
 import com.example.dianshangxiangmu.bean.UserBean;
 import com.example.dianshangxiangmu.bean.VerifyBean;
@@ -53,6 +54,11 @@ public interface MyApi {
     //验证码
     @GET("auth/verify")
     Flowable<VerifyBean> getVerify();
+
+    //注册
+    @POST("auth/register")
+    @FormUrlEncoded
+    Flowable<LogenBean> logen (@Field("nickname") String nickname, @Field("password") String password);
 
     //登录
     @POST("auth/login")

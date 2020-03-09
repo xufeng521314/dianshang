@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.dianshangxiangmu.base.BaseActivity;
+import com.example.dianshangxiangmu.bean.LogenBean;
 import com.example.dianshangxiangmu.bean.VerifyBean;
 import com.example.dianshangxiangmu.contract.LogenContract;
 import com.example.dianshangxiangmu.presenter.LogenPresenter;
@@ -49,12 +50,7 @@ public class LogenActivity extends BaseActivity<LogenContract.View, LogenContrac
                 presenter.getVerify();
             }
         });
-        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
     }
 
     @Override
@@ -65,6 +61,23 @@ public class LogenActivity extends BaseActivity<LogenContract.View, LogenContrac
     @Override
     public void getVerifyReturn(VerifyBean result) {
         updateVerify(result);
+    }
+
+    @Override
+    public void getLogenReturn(LogenBean result) {
+        String nickname = result.getData().getUserInfo().getNickname();
+        String username = result.getData().getUserInfo().getUsername();
+        mUsernameEdit.setText(nickname);
+        mPw1Edit.setText(username);
+        final String name = mUsernameEdit.getText().toString();
+        final String pass = mPw1Edit.getText().toString();
+        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.getLogen(name,pass);
+                finish();
+            }
+        });
     }
 
     private void updateVerify(VerifyBean bean){
